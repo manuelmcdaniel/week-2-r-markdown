@@ -1,0 +1,68 @@
+---
+title: "ANA 515 Assignment 1"
+author: "emmanuel owireku addo"
+date: "5/29/2022"
+output: 
+  html_document:
+   theme: 
+     bootswatch: cosmo 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE}
+#install.packages("tidyverse")
+#install.packages("knitr")
+#install.packages("bslib")
+library(tidyverse)
+library(bslib)
+library(knitr)
+```
+
+```{r, include=FALSE}
+url <- 'https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv'
+nyc <- read_csv(url)
+print(nyc)
+```
+
+
+
+```{r, include=FALSE}
+#creating a subset called youth 
+"tidyverse"
+youth<-filter(nyc,age<= 65)
+
+```
+
+```{r, echo=FALSE}
+summary(youth) 
+```
+
+```{r, include=FALSE}
+
+nyc_nrow <- nrow(nyc)
+rem_row <- nyc_nrow - nrow(youth)
+```
+
+We have data about `r nyc_nrow` individuals killed by guns. Only `r rem_row` are older than 65. 
+
+# Gun deaths by Age
+```{r youth-dist, echo=FALSE}
+youth %>%
+ggplot(aes (age)) +
+geom_freqpoly(binwidth=1)
+```
+
+# Gun deaths by race 
+```{r race-dist, echo=FALSE}
+youth %>%
+ggplot(aes(fct_infreq(race) %>% fct_rev())) +
+geom_bar() + coord_flip() +
+labs (x = "Victim race")
+```
+
+
+
+
